@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template, request, redirect, url_for, abort
+from flask import Blueprint, render_template, request, redirect, url_for, abort, current_app
 from datetime import datetime
 from .db import get_connection
 import sqlite3
 import traceback
+
 
 bp = Blueprint("main", __name__)
 
@@ -19,36 +20,36 @@ def bug_list():
     conn.close()
     return render_template("bug_list.html", bugs=bugs)
 
-@bp.route("/bug/<bug_id>")   #  no <int:bug_id> type here on purpose
+@bp.route("/bug/<int:bug_id>")  # ✔ enforce integer
 def bug_detail(bug_id):
-    # this route is intentionally vulnerable for CWE-209
     try:
-        # here we bypass get_connection() and manually build the SQL with f-string
-        conn = sqlite3.connect("bugs.db")
-        conn.row_factory = sqlite3.Row
+        # use shared helper and parameterized query
+        conn = get_connection()
         cur = conn.cursor()
-
-        #  vulnerable: bug_id is used directly in the query string
-        query = f"SELECT id, title, description, created_at FROM bugs WHERE id = {bug_id}"
-        cur.execute(query)
-        row = cur.fetchone()
+        cur.execute(
+            "SELECT id, title, description, created_at FROM bugs WHERE id = ?",
+            (bug_id,),
+        )
+        bug = cur.fetchone()
         conn.close()
 
-        if row is None:
-            # trigger an error so we can see the stack trace in the except block
-            raise ValueError("Bug not found")
+        if bug is None:
+            # normal 404, no stack trace to user
+            abort(404)
 
-        return render_template("bug_detail.html", bug=row)
+        return render_template("bug_detail.html", bug=bug)
 
-    except Exception as e:
-        #  CWE-209: leak detailed internal error + stack trace to the user
-        stack = traceback.format_exc()
-        return f"""
-        <h1>Application Error</h1>
-        <h2>{e}</h2>
-        <h3>Debug details (should NOT be shown in production)</h3>
-        <pre>{stack}</pre>
-        """, 500
+    except Exception:
+        # log full traceback on server, not to user
+        current_app.logger.exception("bug_detail failed")
+
+        # generic error message – no file paths, no SQL, no stack trace
+        return (
+            "An unexpected error occurred while loading this bug. "
+            "Please try again later.",
+            500,
+        )
+
 
 
 @bp.route("/bug/new", methods=["GET", "POST"])
@@ -59,7 +60,12 @@ def bug_create():
 
         if not title or not description:
             error = "Title and description are required."
-            return render_template("bug_create.html", error=error, title=title, description=description)
+            return render_template(
+                "bug_create.html",
+                error=error,
+                title=title,
+                description=description,
+            )
 
         conn = get_connection()
         cur = conn.cursor()
