@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Welcome to BugBoard</h2>
+<p>This is a simple demo app for tracking bug reports.</p>
+<p><a href="{{ url_for('main.bug_list') }}">View all bugs</a> or
+   <a href="{{ url_for('main.bug_create') }}">create a new bug</a>.</p>
+{% endblock %}

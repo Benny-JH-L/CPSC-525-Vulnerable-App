@@ -1,0 +1,13 @@
+body {
+    font-family: sans-serif;
+    margin: 20px;
+}
+
+header h1 a {
+    text-decoration: none;
+    color: black;
+}
+
+nav a {
+    margin-right: 10px;
+}

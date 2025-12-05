@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>BugBoard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header>
+    <h1><a href="{{ url_for('main.index') }}">BugBoard</a></h1>
+    <nav>
+        <a href="{{ url_for('main.bug_list') }}">All Bugs</a> |
+        <a href="{{ url_for('main.bug_create') }}">New Bug</a>
+    </nav>
+</header>
+<main>
+    {% block content %}{% endblock %}
+</main>
+</body>
+</html>
