@@ -38,7 +38,7 @@ git clone https://github.com/<your-username>/CPSC-525-Vulnerable-App.git
 cd CPSC-525-Vulnerable-App
 
 2. Create and activate a Python virtual environment
-python3 -m venv venv
+python3 -m venv venv        or      python -m venv venv 
 source venv/bin/activate
 
 
@@ -77,10 +77,8 @@ Visit the site at:
 http://127.0.0.1:5000
 
 You can:
-
-View all bugs
-
-Add new bugs
+- View all bugs
+- Add new bugs
 
 Open bug details
 
@@ -108,13 +106,13 @@ Reveals SQL engine errors
 
 Allows the exploit to extract sensitive information
 
-Try visiting:
+Try visiting pages:
 
-/bug/abc
+http://127.0.0.1:5000/bug/abc
 
-/bug/1;DROP TABLE bugs;--
+http://127.0.0.1:5000/bug/1;DROP TABLE bugs;--
 
-/bug/999999999999999999999
+http://127.0.0.1:5000/bug/999999999999999999999
 
 These produce large error pages exposing internal server details (CWE-209).
 
