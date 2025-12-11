@@ -1,8 +1,142 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Welcome to BugBoard</h2>
-<p>This is a simple demo app for tracking bug reports.</p>
-<p><a href="{{ url_for('main.bug_list') }}">View all bugs</a> or
-   <a href="{{ url_for('main.bug_create') }}">create a new bug</a>.</p>
+<style>
+    .welcome-container {
+        max-width: 700px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .welcome-container h2 {
+        color: #667eea;
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .welcome-description {
+        color: #666;
+        font-size: 1.2em;
+        line-height: 1.8;
+        margin-bottom: 50px;
+    }
+
+    .action-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+        margin-top: 40px;
+    }
+
+    .action-card {
+        background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%);
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        padding: 35px 25px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .action-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.25);
+        border-color: #667eea;
+        background: white;
+    }
+
+    .action-card-icon {
+        font-size: 3em;
+        margin-bottom: 10px;
+    }
+
+    .action-card-title {
+        color: #667eea;
+        font-size: 1.4em;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .action-card:hover .action-card-title {
+        color: #764ba2;
+    }
+
+    .action-card-description {
+        color: #666;
+        font-size: 1em;
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    .feature-list {
+        margin-top: 60px;
+        padding-top: 40px;
+        border-top: 2px solid #e0e0e0;
+    }
+
+    .feature-list h3 {
+        color: #764ba2;
+        font-size: 1.3em;
+        margin-bottom: 20px;
+    }
+
+    .features {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .feature-item {
+        color: #666;
+        font-size: 1em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .feature-item::before {
+        content: '✓';
+        color: #667eea;
+        font-weight: bold;
+        font-size: 1.3em;
+    }
+</style>
+
+<div class="welcome-container">
+    <h2>Welcome to BugBoard</h2>
+    <p class="welcome-description">
+        This is a simple demo app for tracking bug reports.
+    </p>
+
+    <div class="action-cards">
+        <a href="{{ url_for('main.bug_list') }}" class="action-card">
+            <div class="action-card-icon">📋</div>
+            <h3 class="action-card-title">View All Bugs</h3>
+            <p class="action-card-description">Browse through all reported bugs and their current status</p>
+        </a>
+
+        <a href="{{ url_for('main.bug_create') }}" class="action-card">
+            <div class="action-card-icon">➕</div>
+            <h3 class="action-card-title">Create New Bug</h3>
+            <p class="action-card-description">Report a new bug and help improve the project</p>
+        </a>
+    </div>
+
+    <div class="feature-list">
+        <h3>Features</h3>
+        <div class="features">
+            <span class="feature-item">Totally</span>
+            <span class="feature-item">Not</span>
+            <span class="feature-item">Vulnerable</span>
+        </div>
+    </div>
+</div>
 {% endblock %}
