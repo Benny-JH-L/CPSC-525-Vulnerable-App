@@ -1,5 +1,11 @@
-py -m venv venv 
+# activate the environment
 source venv/bin/activate
-py .\env\Scripts\pip.exe install -r requirements.txt
-py init_db.py
-py app.py
+
+# download necessary packages
+pip install -r requirements.txt
+
+# initialize values
+python init_db.py
+
+# run the web application
+python app.py
