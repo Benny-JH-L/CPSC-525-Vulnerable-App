@@ -31,6 +31,7 @@ CPSC-525-Vulnerable-App/
 
 Installation Instructions
 
+Run the command `bash ./run.sh` to set up and run the vulnerable program, or,
 Follow these steps to run both the vulnerable and fixed versions on your machine.
 
 1. Clone the repository
